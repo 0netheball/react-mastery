@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router'
 import HomePage from "./pages/HomePage";
+import CheckoutPage from './pages/CheckoutPage';
 import './App.css'
 
 export default function App() {
@@ -7,7 +8,7 @@ export default function App() {
     <>
       <Routes> 
         <Route path='/' element={<HomePage />}></Route>
-        <Route path='checkout' element={<div>Test</div>}></Route>
+        <Route path='checkout' element={<CheckoutPage />}></Route>
       </Routes>
     </>
   );
