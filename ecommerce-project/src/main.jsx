@@ -11,3 +11,8 @@ createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </StrictMode>,
 )
+/*
+  Strictmode runs useEffects twice to catch bugs
+
+  In production strictmode doesn't do anything
+*/

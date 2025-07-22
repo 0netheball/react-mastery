@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { formatCurrency } from '../../utils/money';
+import { formatCurrency } from '../../../utils/money';
 
 export function DeliveryOptions({ deliveryOptions, cartItem }) {
   return (
