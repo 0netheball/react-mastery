@@ -19,6 +19,8 @@ export default function App() {
   useEffect(() => {
     loadCart();
   }, []);
+
+  window.axios = axios; 
   
   return (
     <>
