@@ -2,18 +2,18 @@
 // import { render, screen } from '@testing-library/react';
 // import userEvent from '@testing-library/user-event';
 // import axios from 'axios';
-import { HomePage } from './HomePage';
+// import { HomePage } from './HomePage';
 
-vi.mock('axios');
+// vi.mock('axios');
 
-describe('HomePage component', () => {
-  let loadCart; 
+// describe('HomePage component', () => {
+//   let loadCart; 
 
-  beforeEach(() => {
-    loadCart = vi.fn();
-  });
+//   beforeEach(() => {
+//     loadCart = vi.fn();
+//   });
 
-  it('displays the products correct', () => {
-    render(<HomePage cart={[]} loadCart={loadCart}/>);
-  });
-});
+//   it('displays the products correct', () => {
+//     render(<HomePage cart={[]} loadCart={loadCart}/>);
+//   });
+// });

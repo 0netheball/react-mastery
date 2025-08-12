@@ -4,6 +4,7 @@ import { formatCurrency } from '../../utils/money';
 
 export function Product({ product, loadCart }) {
   const [quantity, setQuantity] = useState(1);
+  const [opacity, setOpacity] = useState(false);
 
   const addToCart = async () => {
     /*
@@ -15,6 +16,12 @@ export function Product({ product, loadCart }) {
       quantity
     });
     await loadCart();
+
+    setOpacity(true);
+
+    setTimeout(() => {
+      setOpacity(false);
+    }, 2000);
   }
 
   const selectQuantity = (event) => {
@@ -66,14 +73,15 @@ export function Product({ product, loadCart }) {
 
       <div className="product-spacer"></div>
 
-      <div className="added-to-cart">
+      <div className="added-to-cart" style={{opacity: opacity ? 1 : 0}}>
         <img src="images/icons/checkmark.png" />
         Added
       </div>
 
       <button className="add-to-cart-button button-primary"
         data-testid="add-to-cart-button"
-        onClick={addToCart}>
+        onClick={addToCart}
+      >
         Add to Cart
       </button>
     </div>
