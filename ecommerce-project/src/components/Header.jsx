@@ -1,9 +1,23 @@
-import { NavLink } from 'react-router';
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router';
 import LogoWhite from '../assets/images/logo-white.png'
 import MobileLogo from '../assets/images/mobile-logo-white.png'
 import './Header.css';
 
 export function Header({ cart }) {
+  const [search, setSearch] = useState('');
+  const navigate = useNavigate();
+
+
+
+  const getTextInput = (event) => {
+    setSearch(event.target.value);
+  }
+
+  const searchProducts = () => {
+    navigate(`/?search=${search}`);
+  }
+
   // Accumulation Pattern
   let totalQuantity = 0; 
 
@@ -24,9 +38,9 @@ export function Header({ cart }) {
         </div>
 
         <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Search" />
+          <input className="search-bar" type="text" placeholder="Search" onChange={getTextInput} value={search}/>
 
-          <button className="search-button">
+          <button className="search-button" onClick={searchProducts}>
             <img className="search-icon" src="images/icons/search-icon.png" />
           </button>
         </div>
