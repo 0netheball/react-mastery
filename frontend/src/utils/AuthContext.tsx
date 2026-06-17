@@ -32,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const res = await axios.post('/api/auth/google', { credential });
     const { token: newToken, user: userData } = res.data;
     localStorage.setItem('token', newToken);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
     setToken(newToken);
     setUser(userData);
   };
