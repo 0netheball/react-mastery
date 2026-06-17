@@ -11,10 +11,10 @@ const google = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 router.post('/google', async (req, res) => {
   const ticket = await google.verifyIdToken({ idToken: req.body.credential, audience: process.env.GOOGLE_CLIENT_ID });
-  const { email, name, sub: googleId } = ticket.getPayload();
+  const { email, name, sub: googleId, picture } = ticket.getPayload();
   let user = await User.findOne({ where: { googleId } });
   if (!user) {
-    user = await User.create({ email, name, googleId });
+    user = await User.create({ email, name, googleId, picture });
     const seedCart = await CartItem.findAll({ where: { userId: defaultUser.id } });
     for (const item of seedCart) {
       await CartItem.create({
@@ -33,9 +33,11 @@ router.post('/google', async (req, res) => {
         userId: user.id
       });
     }
+  } else if (picture) {
+    await user.update({ picture });
   }
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-  res.json({ token, user: { id: user.id, email: user.email } });
+  const token = jwt.sign({ userId: user.id, email: user.email, picture: user.picture }, process.env.JWT_SECRET, { expiresIn: '7d' });
+  res.json({ token, user: { id: user.id, email: user.email, picture: user.picture } });
 });
 
 export default router;

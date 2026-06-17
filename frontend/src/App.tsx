@@ -19,21 +19,19 @@ export default function App() {
     try {
       const response = await axios.get('/api/cart-items?expand=product');
       setCart(response.data);
-    } catch (e) {
-      console.error('loadCart error:', e.response?.status, e.message);
+    } catch (e: unknown) {
+      const err = e as { response?: { status?: number }; message?: string };
+      console.error('loadCart error:', err.message);
     }
   }
 
   useEffect(() => {
     if (token) {
-      console.log('Token changed, loading cart...');
       loadCart();
     } else {
       setCart([]);
     }
   }, [token]);
-
-  window.axios = axios;
 
   return (
     <Routes>

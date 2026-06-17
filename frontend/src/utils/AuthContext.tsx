@@ -4,6 +4,7 @@ import axios from 'axios';
 type User = {
   id: string;
   email: string;
+  picture?: string | null;
 };
 
 type AuthContextType = {
@@ -16,9 +17,18 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+function decodeToken(token: string): User | null {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return { id: payload.userId, email: payload.email, picture: payload.picture };
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+  const [user, setUser] = useState<User | null>(() => token ? decodeToken(token) : null);
 
   useEffect(() => {
     if (token) {
@@ -30,11 +40,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (credential: string) => {
     const res = await axios.post('/api/auth/google', { credential });
-    const { token: newToken, user: userData } = res.data;
+    const { token: newToken } = res.data;
     localStorage.setItem('token', newToken);
     axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
     setToken(newToken);
-    setUser(userData);
+    setUser(decodeToken(newToken));
   };
 
   const logout = () => {

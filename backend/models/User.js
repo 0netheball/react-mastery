@@ -21,6 +21,10 @@ export const User = sequelize.define('User', {
     allowNull: false,
     unique: true
   },
+  picture: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   createdAt: {
     type: DataTypes.DATE(3)
   },

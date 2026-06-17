@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import { useAuth } from '../utils/AuthContext';
 import LogoWhite from '../assets/images/logo-white.png'
@@ -16,8 +16,20 @@ type HeaderProps = {
 export function Header({ cart }: HeaderProps) {
   const { user, isAuthenticated, logout } = useAuth();
   const [search, setSearch] = useState('');
+  const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (tooltipRef.current && !tooltipRef.current.contains(e.target as Node)) {
+        setShowTooltip(false);
+      }
+    }
+    if (showTooltip) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showTooltip]);
 
   const handleSearchInput = (event: {
     target: {
@@ -77,12 +89,54 @@ export function Header({ cart }: HeaderProps) {
 
         <div className="right-section">
           {isAuthenticated ? (
-            <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ color: '#fff', fontSize: 14 }}>{user?.email}</span>
-              <button onClick={logout} className="logout-button" style={{
-                background: 'none', border: '1px solid #fff', color: '#fff',
-                padding: '4px 12px', borderRadius: 4, cursor: 'pointer', fontSize: 13
-              }}>Выйти</button>
+            <div ref={tooltipRef} className="user-info" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                {user?.picture ? (
+                  <img
+                    src={user.picture}
+                    alt="avatar"
+                    onClick={() => setShowTooltip(prev => !prev)}
+                    style={{ width: 32, height: 32, borderRadius: '50%', cursor: 'pointer' }}
+                  />
+                ) : (
+                  <div
+                    onClick={() => setShowTooltip(prev => !prev)}
+                    style={{
+                      width: 32, height: 32, borderRadius: '50%', cursor: 'pointer',
+                      background: '#555', color: '#fff', display: 'flex',
+                      alignItems: 'center', justifyContent: 'center',
+                      fontSize: 14, fontWeight: 'bold'
+                    }}
+                  >
+                    {user?.email?.[0]?.toUpperCase() || '?'}
+                  </div>
+                )}
+                {showTooltip && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: 8,
+                      background: '#333',
+                      color: '#fff',
+                      padding: '8px 12px',
+                      borderRadius: 6,
+                      fontSize: 13,
+                      whiteSpace: 'nowrap',
+                      zIndex: 100,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
+                    }}
+                  >
+                    <div style={{ marginBottom: 4 }}>{user?.email}</div>
+                    <button
+                      onClick={logout}
+                      style={{
+                        background: 'none', border: '1px solid #fff', color: '#fff',
+                        padding: '4px 12px', borderRadius: 4, cursor: 'pointer', fontSize: 12, width: '100%'
+                      }}
+                    >Выйти</button>
+                  </div>
+                )}
             </div>
           ) : (
             <NavLink className="orders-link header-link" to="/login" style={{ textDecoration: 'none' }}>
