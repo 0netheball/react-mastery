@@ -13,6 +13,7 @@
   left: 0;
   right: 0;
   height: 60px;
+  z-index: 500;
 }
 
 .header .left-section {
@@ -65,7 +66,7 @@
 
 .header .middle-section {
   flex: 1;
-  max-width: 850px;
+  max-width: 600px;
   margin-left: 10px;
   margin-right: 10px;
   display: flex;
@@ -82,10 +83,11 @@
 }
 
 .header .right-section {
-  width: 190px;
+  width: auto;
   flex-shrink: 0;
   display: flex;
-  justify-content: end;
+  align-items: center;
+  gap: 4px;
 }
 
 .header .orders-link {
@@ -126,9 +128,175 @@
   font-weight: 700;
 
   position: absolute;
-  top: 8.5px;
-  right: 76px;
+  top: 8px;
+  left: 18px;
 
   width: 26px;
   text-align: center;
+}
+
+/* --- Login button --- */
+
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  height: 36px;
+  white-space: nowrap;
+}
+
+.login-btn:hover {
+  background: #fff;
+  color: rgb(8, 79, 45);
+  border-color: #fff;
+}
+
+.login-btn-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* --- User avatar --- */
+
+.user-info {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.user-avatar:hover {
+  border-color: #fff;
+  transform: scale(1.08);
+}
+
+.user-avatar-placeholder {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: border-color 0.2s, transform 0.2s;
+  user-select: none;
+}
+
+.user-avatar-placeholder:hover {
+  border-color: #fff;
+  transform: scale(1.08);
+}
+
+/* --- Tooltip --- */
+
+.user-tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background: #fff;
+  color: #333;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+}
+
+.user-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 16px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.user-tooltip-email {
+  font-weight: 600;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+  font-size: 13px;
+  color: #555;
+  position: relative;
+  z-index: 1;
+}
+
+.user-tooltip-logout {
+  background: none;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  width: 100%;
+  transition: all 0.15s;
+}
+
+.user-tooltip-logout:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 675px) {
+  .header .cart-text {
+    display: none;
+  }
+
+  .header .orders-text {
+    display: none;
+  }
+
+  .header .right-section {
+    gap: 2px;
+  }
+
+  .login-btn {
+    padding: 6px 8px;
+    gap: 0;
+  }
+
+  .login-btn-text {
+    display: none;
+  }
+
+  .user-avatar,
+  .user-avatar-placeholder {
+    width: 32px;
+    height: 32px;
+  }
 }

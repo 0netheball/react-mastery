@@ -8,10 +8,19 @@ import './Header.css';
 type HeaderProps = {
   cart: {
     productId: string;
-    quantity: number; 
-    deliveryOptionId: string; 
+    quantity: number;
+    deliveryOptionId: string;
   }[];
 }
+
+const googleIcon = (
+  <svg className="login-btn-icon" viewBox="0 0 48 48">
+    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+    <path fill="#FBBC05" d="M10.54 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 0 0 0 24c0 3.83.87 7.44 2.56 10.78l7.98-6.19z" />
+    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+  </svg>
+);
 
 export function Header({ cart }: HeaderProps) {
   const { user, isAuthenticated, logout } = useAuth();
@@ -64,11 +73,10 @@ export function Header({ cart }: HeaderProps) {
     }
   }
 
-  // Accumulation Pattern
-  let totalQuantity = 0; 
+  let totalQuantity = 0;
 
   cart.forEach((cartItem) => {
-    totalQuantity += cartItem.quantity; 
+    totalQuantity += cartItem.quantity;
   });
 
   return (
@@ -84,63 +92,40 @@ export function Header({ cart }: HeaderProps) {
         </div>
 
         <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Поиск" onChange={handleSearchInput} onKeyDown={handleKeyDown} value={search}/>
+          <input className="search-bar" type="text" placeholder="Поиск" onChange={handleSearchInput} onKeyDown={handleKeyDown} value={search} />
         </div>
 
         <div className="right-section">
           {isAuthenticated ? (
-            <div ref={tooltipRef} className="user-info" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                {user?.picture ? (
-                  <img
-                    src={user.picture}
-                    alt="avatar"
-                    onClick={() => setShowTooltip(prev => !prev)}
-                    style={{ width: 32, height: 32, borderRadius: '50%', cursor: 'pointer' }}
-                  />
-                ) : (
-                  <div
-                    onClick={() => setShowTooltip(prev => !prev)}
-                    style={{
-                      width: 32, height: 32, borderRadius: '50%', cursor: 'pointer',
-                      background: '#555', color: '#fff', display: 'flex',
-                      alignItems: 'center', justifyContent: 'center',
-                      fontSize: 14, fontWeight: 'bold'
-                    }}
-                  >
-                    {user?.email?.[0]?.toUpperCase() || '?'}
-                  </div>
-                )}
-                {showTooltip && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '100%',
-                      right: 0,
-                      marginTop: 8,
-                      background: '#333',
-                      color: '#fff',
-                      padding: '8px 12px',
-                      borderRadius: 6,
-                      fontSize: 13,
-                      whiteSpace: 'nowrap',
-                      zIndex: 100,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
-                    }}
-                  >
-                    <div style={{ marginBottom: 4 }}>{user?.email}</div>
-                    <button
-                      onClick={logout}
-                      style={{
-                        background: 'none', border: '1px solid #fff', color: '#fff',
-                        padding: '4px 12px', borderRadius: 4, cursor: 'pointer', fontSize: 12, width: '100%'
-                      }}
-                    >Выйти</button>
-                  </div>
-                )}
+            <div ref={tooltipRef} className="user-info">
+              {user?.picture ? (
+                <img
+                  className="user-avatar"
+                  src={user.picture}
+                  alt="avatar"
+                  onClick={() => setShowTooltip(prev => !prev)}
+                />
+              ) : (
+                <div
+                  className="user-avatar-placeholder"
+                  onClick={() => setShowTooltip(prev => !prev)}
+                >
+                  {user?.email?.[0]?.toUpperCase() || '?'}
+                </div>
+              )}
+              {showTooltip && (
+                <div className="user-tooltip">
+                  <div className="user-tooltip-email">{user?.email}</div>
+                  <button className="user-tooltip-logout" onClick={logout}>
+                    Выйти
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
-            <NavLink className="orders-link header-link" to="/login" style={{ textDecoration: 'none' }}>
-              <span className="orders-text">Войти</span>
+            <NavLink className="login-btn" to="/login">
+              {googleIcon}
+              <span className="login-btn-text">Войти</span>
             </NavLink>
           )}
 
