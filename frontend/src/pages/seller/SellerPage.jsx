@@ -58,7 +58,7 @@ export function SellerPage({ cart, loadCart }) {
     try {
       const formData = new FormData();
       formData.append('name', name);
-      formData.append('priceCents', String(Math.round(parseFloat(price) * 100)));
+      formData.append('priceCents', String(Math.round(parseFloat(price))));
       formData.append('quantity', quantity);
       formData.append('keywords', keywords);
       if (imageFile) formData.append('image', imageFile);
@@ -80,7 +80,7 @@ export function SellerPage({ cart, loadCart }) {
 
   const handleEdit = (product) => {
     setName(product.name);
-    setPrice(String(product.priceCents / 100));
+    setPrice(String(product.priceCents));
     setQuantity(String(product.quantity));
     setKeywords(product.keywords?.filter(Boolean).join(', ') || '');
     setImagePreview(null);
