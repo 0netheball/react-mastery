@@ -21,6 +21,12 @@ Here's a list of all the URL Paths you can use with this backend and what each U
 - [GET /api/auth/me](#get-apiauthme)
 - [POST /api/auth/logout](#post-apiauthlogout)
 
+**Seller (My Products)**
+- [GET /api/my-products](#get-apimy-products)
+- [POST /api/products](#post-apiproducts)
+- [PUT /api/products/:id](#put-apiproductsid)
+- [DELETE /api/products/:id](#delete-apiproductsid)
+
 **Payment Summary, Reset**
 - [GET /api/payment-summary](#get-apipayment-summary)
 - [POST /api/reset](#post-apireset)
@@ -43,7 +49,15 @@ Returns a list of products.
       "count": "number"
     },
     "priceCents": "number",
-    "keywords": ["string"]
+    "quantity": "number",
+    "keywords": ["string"],
+    "userId": "uuid | null",
+    "user": {
+      "id": "uuid",
+      "name": "string"
+    },
+    "createdAt": "string",
+    "updatedAt": "string"
   }
 ]
 ```
@@ -214,6 +228,120 @@ Returns a specific order.
   ]
 }
 ```
+
+## GET /api/my-products
+Returns all products created by the authenticated user, sorted by most recent first.
+
+**Authentication:** Required (JWT cookie or Bearer token)
+
+**Response:**
+```js
+[
+  {
+    "id": "uuid",
+    "image": "string",
+    "name": "string",
+    "rating": {
+      "stars": "number",
+      "count": "number"
+    },
+    "priceCents": "number",
+    "quantity": "number",
+    "keywords": ["string"],
+    "userId": "uuid",
+    "user": {
+      "id": "uuid",
+      "name": "string"
+    },
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+]
+```
+
+## POST /api/products
+Creates a new product. The authenticated user is set as the product owner.
+
+**Authentication:** Required (JWT cookie or Bearer token)
+
+**Request:** `multipart/form-data`
+- `image` (file, required): Product image
+- `name` (string, required): Product name
+- `priceCents` (number, required): Price in cents
+- `quantity` (number, optional, default: 1): Stock quantity
+- `keywords` (string, optional): Comma-separated keywords
+
+**Response:** Status 201
+```js
+{
+  "id": "uuid",
+  "image": "uploads/filename.jpg",
+  "name": "string",
+  "priceCents": "number",
+  "quantity": "number",
+  "keywords": ["string"],
+  "userId": "uuid",
+  "rating": {
+    "stars": 0,
+    "count": 0
+  }
+}
+```
+
+## PUT /api/products/:id
+Updates an existing product. Only the owner can update their products.
+
+**Authentication:** Required (JWT cookie or Bearer token)
+
+**URL Parameters:**
+- `id`: ID of the product to update
+
+**Request:** `multipart/form-data`
+- `image` (file, optional): New product image
+- `name` (string, optional): Product name
+- `priceCents` (number, optional): Price in cents
+- `quantity` (number, optional): Stock quantity
+- `keywords` (string, optional): Comma-separated keywords
+
+**Response:**
+```js
+{
+  "id": "uuid",
+  "image": "uploads/filename.jpg",
+  "name": "string",
+  "priceCents": "number",
+  "quantity": "number",
+  "keywords": ["string"],
+  "userId": "uuid",
+  "rating": {
+    "stars": "number",
+    "count": "number"
+  }
+}
+```
+
+**Error responses:**
+- `404` — Product not found
+- `403` — Forbidden (not the owner)
+
+## DELETE /api/products/:id
+Deletes a product. Only the owner can delete their products.
+
+**Authentication:** Required (JWT cookie or Bearer token)
+
+**URL Parameters:**
+- `id`: ID of the product to delete
+
+**Response:**
+```js
+{
+  "message": "Product deleted"
+}
+```
+
+**Error responses:**
+- `404` — Product not found
+- `403` — Forbidden (not the owner)
 
 ## GET /api/payment-summary
 Calculates and returns the payment summary for the current cart.
