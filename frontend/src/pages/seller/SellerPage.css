@@ -1,5 +1,5 @@
 .seller-page {
-  margin-top: 60px;
+  margin: 60px 32px 0;
   display: flex;
   gap: 24px;
   padding: 24px 32px;
@@ -11,19 +11,26 @@
 
 .seller-form-panel {
   width: 420px;
-  flex-shrink: 0;
+  max-width: 100%;
+  flex-shrink: 1;
+  min-width: 0;
   background: #fff;
   border-radius: 8px;
   padding: 24px;
+  box-sizing: border-box;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
 .seller-list-panel {
   flex: 1;
+  min-width: 0;
+  max-width: 100%;
   background: #fff;
   border-radius: 8px;
   padding: 24px;
+  box-sizing: border-box;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -222,13 +229,94 @@
   color: #e53935;
 }
 
-@media (max-width: 800px) {
+/* Tablet */
+@media (max-width: 1024px) {
+  .seller-page {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .seller-form-panel {
+    width: 340px;
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .seller-list-panel {
+    padding: 20px;
+  }
+
+  .seller-form-preview {
+    width: 100px;
+    height: 100px;
+  }
+
+  .seller-card-img {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
   .seller-page {
     flex-direction: column;
-    padding: 16px;
+    margin: 60px 12px 0;
+    height: auto;
+    min-height: calc(100vh - 60px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 12px;
+    gap: 12px;
   }
 
   .seller-form-panel {
     width: 100%;
+    padding: 16px;
+  }
+
+  .seller-list-panel {
+    width: 100%;
+    padding: 16px;
+    height: auto;
+  }
+
+  .seller-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .seller-form {
+    gap: 12px;
+  }
+
+  .seller-form-preview {
+    width: 80px;
+    height: 80px;
+  }
+
+  .seller-card {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .seller-card-img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .seller-card-name {
+    font-size: 14px;
+  }
+
+  .seller-card-price {
+    font-size: 15px;
+  }
+
+  .seller-card-edit,
+  .seller-card-delete {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
   }
 }
