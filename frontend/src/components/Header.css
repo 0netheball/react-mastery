@@ -101,6 +101,7 @@
   color: white;
   display: flex;
   align-items: center;
+  gap: 6px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -113,9 +114,9 @@
 
 .header .orders-link {
   color: white;
-
   display: flex;
   align-items: center;
+  gap: 6px;
   padding-left: 13px;
   padding-right: 13px;
 }
@@ -124,6 +125,14 @@
   display: block;
   font-size: 15px;
   font-weight: 700;
+}
+
+.header .orders-icon,
+.header .seller-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+  flex-shrink: 0;
 }
 
 .header .cart-link {
@@ -305,6 +314,18 @@
 
   .header .right-section {
     gap: 2px;
+  }
+
+  .header .orders-icon,
+  .header .seller-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .header .seller-link,
+  .header .orders-link {
+    padding-left: 6px;
+    padding-right: 6px;
   }
 
   .login-btn {

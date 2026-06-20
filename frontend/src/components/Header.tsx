@@ -13,6 +13,24 @@ type HeaderProps = {
   }[];
 }
 
+const ordersIcon = (
+  <svg className="orders-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 7l16 0-2 13H6L4 7z" />
+    <path d="M8 7V4a2 2 0 012-2h4a2 2 0 012 2v3" />
+  </svg>
+);
+
+const sellerIcon = (
+  <svg className="seller-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="8" y1="6" x2="21" y2="6" />
+    <line x1="8" y1="12" x2="21" y2="12" />
+    <line x1="8" y1="18" x2="21" y2="18" />
+    <circle cx="4" cy="6" r="1" fill="currentColor" stroke="none" />
+    <circle cx="4" cy="12" r="1" fill="currentColor" stroke="none" />
+    <circle cx="4" cy="18" r="1" fill="currentColor" stroke="none" />
+  </svg>
+);
+
 const googleIcon = (
   <svg className="login-btn-icon" viewBox="0 0 48 48">
     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
@@ -131,14 +149,16 @@ export function Header({ cart }: HeaderProps) {
 
           {isAuthenticated && (
             <>
-              <NavLink className="seller-link header-link" to="/seller">
+              <NavLink className="seller-link header-link" to="/seller" title="Мои товары">
+                {sellerIcon}
                 <span className="seller-text">Мои товары</span>
               </NavLink>
               <span className="header-divider">|</span>
             </>
           )}
 
-          <NavLink className="orders-link header-link" to="/orders">
+          <NavLink className="orders-link header-link" to="/orders" title="Заказы">
+            {ordersIcon}
             <span className="orders-text">Заказы</span>
           </NavLink>
 
