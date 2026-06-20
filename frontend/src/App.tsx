@@ -5,6 +5,7 @@ import { HomePage } from "./pages/home/HomePage";
 import { CheckoutPage } from './pages/checkout/CheckoutPage';
 import { OrdersPage } from './pages/orders/OrdersPage';
 import { TrackingPage } from './pages/TrackingPage';
+import { SellerPage } from './pages/seller/SellerPage';
 import { NotFoundPage } from './components/NotFoundPage';
 import { LoginPage } from './pages/LoginPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -42,6 +43,9 @@ export default function App() {
       } />
       <Route path='/orders' element={
         <ProtectedRoute><OrdersPage cart={cart} loadCart={loadCart}/></ProtectedRoute>
+      } />
+      <Route path='/seller' element={
+        <ProtectedRoute><SellerPage cart={cart} loadCart={loadCart}/></ProtectedRoute>
       } />
       <Route path='/tracking/:orderId/:productId' element={<TrackingPage cart={cart} />} />
       <Route path='*' element={<NotFoundPage cart={cart} />} />

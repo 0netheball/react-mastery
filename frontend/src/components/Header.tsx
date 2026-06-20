@@ -129,6 +129,15 @@ export function Header({ cart }: HeaderProps) {
             </NavLink>
           )}
 
+          {isAuthenticated && (
+            <>
+              <span className="header-divider">|</span>
+              <NavLink className="seller-link header-link" to="/seller">
+                <span className="seller-text">Мои товары</span>
+              </NavLink>
+            </>
+          )}
+
           <NavLink className="orders-link header-link" to="/orders">
             <span className="orders-text">Заказы</span>
           </NavLink>
