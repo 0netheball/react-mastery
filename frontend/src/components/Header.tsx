@@ -131,10 +131,10 @@ export function Header({ cart }: HeaderProps) {
 
           {isAuthenticated && (
             <>
-              <span className="header-divider">|</span>
               <NavLink className="seller-link header-link" to="/seller">
                 <span className="seller-text">Мои товары</span>
               </NavLink>
+              <span className="header-divider">|</span>
             </>
           )}
 
